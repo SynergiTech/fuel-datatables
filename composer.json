@@ -1,0 +1,16 @@
+{
+    "name": "synergitech/fuel-datatables",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Grant",
+            "email": "josh@synergitech.co.uk"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "SynergiTech\\DataTables\\": "src"
+        }
+    }
+}
