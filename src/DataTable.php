@@ -1,6 +1,6 @@
 <?php
 
-namespace SynergiTech\Datatables;
+namespace SynergiTech\DataTables;
 
 class DataTable
 {
