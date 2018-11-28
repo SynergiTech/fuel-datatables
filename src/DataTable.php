@@ -11,7 +11,8 @@ class DataTable
     private $order;
     private $query;
     private $columns;
-    private $allowedcolumns;
+    private $allowedcolumns = [];
+    private $rowFormatters = [];
 
     public function __construct($params, $class)
     {
@@ -26,7 +27,6 @@ class DataTable
         $this->order = $params['order'];
         $this->query = $class::query();
         $this->columns = $params['columns'];
-        $this->allowedColumns = [];
     }
 
     private function buildQuery($query)
@@ -147,7 +147,8 @@ class DataTable
 
                 $data_row[$key] = $this->formatValue($value, $key);
             }
-            $response['data'][] = $data_row;
+
+            $response['data'][] = $this->formatRow($db_row, $data_row);
         }
 
         return $response;
@@ -166,6 +167,20 @@ class DataTable
         }
 
         return $this;
+    }
+
+    public function addRowFormatter(callable $formatter)
+    {
+        $this->rowFormatters[] = $formatter;
+        return $this;
+    }
+
+    public function formatRow($db_row, $data_row)
+    {
+        foreach ($this->rowFormatters as $formatter) {
+            $row = $formatter($db_row, $data_row);
+        }
+        return $row;
     }
 
     public static function fromGet($class)
