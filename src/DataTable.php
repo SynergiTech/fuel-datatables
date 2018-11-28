@@ -178,9 +178,9 @@ class DataTable
     public function formatRow($db_row, $data_row)
     {
         foreach ($this->rowFormatters as $formatter) {
-            $row = $formatter($db_row, $data_row);
+            $data_row = $formatter($db_row, $data_row);
         }
-        return $row;
+        return $data_row;
     }
 
     public static function fromGet($class)
