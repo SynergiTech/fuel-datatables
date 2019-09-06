@@ -15,7 +15,7 @@ You need to call the `setAllowedColumns()` function to define which columns can 
 ```php
 class API extends Controller_Rest
 {
-  public static function get_index()
+  public function get_index()
   {
       $datatable = \SynergiTech\DataTables\DataTable::fromGet(\Model\YourModel::class);
       $datatable->setAllowedColumns([
