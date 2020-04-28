@@ -225,17 +225,31 @@ class DataTable
         return $data_row;
     }
 
+    public function escapeValue($column, $value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => $leaf) {
+                $value[$key] = $this->escapeValue("$column.$key", $leaf);
+            }
+
+            return $value;
+        }
+
+        if (!in_array($column, $this->escapedColumns) && !in_array('*', $this->escapedColumns)) {
+            return $value;
+        }
+        if (in_array($column, $this->rawColumns)) {
+            return $value;
+        }
+
+
+        return e($value);
+    }
+
     public function escapeRow($row)
     {
         foreach ($row as $column => $value) {
-            if (!in_array($column, $this->escapedColumns) && !in_array('*', $this->escapedColumns)) {
-                continue;
-            }
-            if (in_array($column, $this->rawColumns)) {
-                continue;
-            }
-
-            $row[$column] = e($row);
+            $row[$column] = $this->escapeValue($column, $value);
         }
 
         return $row;

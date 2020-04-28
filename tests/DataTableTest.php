@@ -133,18 +133,17 @@ class DataTableTest extends BaseTestCase
         TestModel::populateFromFixture($data);
 
         $dt = new \SynergiTech\DataTables\DataTable($request, TestModel::class);
-        $dt->setAllowedColumns(['text', 'unsafe_html', 'safe_html']);
+        $dt->setAllowedColumns(['relation.name', 'text', 'unsafe_html', 'safe_html']);
         $dt->setEscapedColumns();
 
         $this->assertSame(['*'], $dt->getEscapedColumns());
 
         $response = $dt->getResponse();
-        $this->assertNotEmpty($response['data']);
-        foreach ($response['data'] as $row) {
-            foreach ($row as $val) {
-                $this->assertSame('ENCODED', $val);
-            }
-        }
+        $this->assertCount(1, $response['data']);
+        $this->assertSame('ENCODED', $response['data'][0]['text']);
+        $this->assertSame('ENCODED', $response['data'][0]['relation']['name']);
+        $this->assertSame('ENCODED', $response['data'][0]['unsafe_html']);
+        $this->assertSame('ENCODED', $response['data'][0]['safe_html']);
     }
 
     public function test_rowFilterDisable()
