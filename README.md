@@ -1,4 +1,5 @@
 # FuelPHP DataTables
+![Build status](https://api.travis-ci.org/SynergiTech/fuel-datatables.svg?branch=master)
 
 Implement DataTables with FuelPHP's ORM
 
