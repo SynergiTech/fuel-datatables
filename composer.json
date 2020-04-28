@@ -7,10 +7,17 @@
             "email": "josh@synergitech.co.uk"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "SynergiTech\\DataTables\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SynergiTech\\DataTables\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5"
     }
 }

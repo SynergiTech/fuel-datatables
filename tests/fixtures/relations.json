@@ -1,0 +1,19 @@
+{
+    "request": {
+        "columns": [
+            { "data": "one.name" },
+            { "data": "one.property.does.not.exist" },
+            { "data": "one.two.name" }
+        ]
+    },
+    "data": [
+        {
+            "one": {
+                "name": "test",
+                "two": {
+                    "name": "deep"
+                }
+            }
+        }
+    ]
+}

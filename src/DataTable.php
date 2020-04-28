@@ -4,17 +4,20 @@ namespace SynergiTech\DataTables;
 
 class DataTable
 {
-    private $draw;
-    private $start;
-    private $length;
-    private $search;
-    private $order;
-    private $query;
-    private $columns;
-    private $allowedcolumns = [];
-    private $rowFormatters = [];
+    protected $draw;
+    protected $start;
+    protected $length;
+    protected $search;
+    protected $order;
+    protected $class;
+    protected $query;
+    protected $columns;
+    protected $allowedColumns = [];
+    protected $rowFormatters = [];
+    protected $escapedColumns = [];
+    protected $rawColumns = [];
 
-    public function __construct($params, $class)
+    public function __construct($params, $class, $query = null)
     {
         if (!class_exists($class)) {
             throw new \RuntimeException("Could not find class $class");
@@ -25,11 +28,22 @@ class DataTable
         $this->length = $params['length'];
         $this->search = (array_key_exists('value', $params['search'])) ? array_filter(preg_split('/\s+/', trim($params['search']['value']))) : [];
         $this->order = $params['order'];
-        $this->query = $class::query();
+        $this->class = $class;
         $this->columns = $params['columns'];
+
+        if ($query === null) {
+            $query = $this->createQuery();
+        }
+        $this->query = $query;
     }
 
-    private function buildQuery($query)
+    protected function createQuery()
+    {
+        $class = $this->class;
+        return $class::query();
+    }
+
+    protected function buildQuery($query)
     {
         if (!empty($this->search)) {
             foreach ($this->search as $term) {
@@ -52,7 +66,7 @@ class DataTable
         return $query;
     }
 
-    private function formatValue($value, $key)
+    protected function formatValue($value, $key)
     {
         if ($value instanceof \Fuel\Core\Date) {
             return $value->get_timestamp();
@@ -148,7 +162,8 @@ class DataTable
                 $data_row[$key] = $this->formatValue($value, $key);
             }
 
-            $response['data'][] = $this->formatRow($db_row, $data_row);
+            $row = $this->formatRow($db_row, $data_row);
+            $response['data'][] = $this->escapeRow($row);
         }
 
         return $response;
@@ -162,11 +177,37 @@ class DataTable
 
     public function addAllowedColumn($column)
     {
-        if (!in_array($this->allowedColumns)) {
+        if (!in_array($column, $this->allowedColumns)) {
             $this->allowedColumns[] = $column;
         }
 
         return $this;
+    }
+
+    public function setEscapedColumns($columns = null)
+    {
+        if ($columns === null) {
+            $columns = ['*'];
+        }
+
+        $this->escapedColumns = $columns;
+        return $this;
+    }
+
+    public function getEscapedColumns()
+    {
+        return $this->escapedColumns;
+    }
+
+    public function setRawColumns($columns)
+    {
+        $this->rawColumns = $columns;
+        return $this;
+    }
+
+    public function getRawColumns()
+    {
+        return $this->rawColumns;
     }
 
     public function addRowFormatter(callable $formatter)
@@ -180,7 +221,24 @@ class DataTable
         foreach ($this->rowFormatters as $formatter) {
             $data_row = $formatter($db_row, $data_row);
         }
+
         return $data_row;
+    }
+
+    public function escapeRow($row)
+    {
+        foreach ($row as $column => $value) {
+            if (!in_array($column, $this->escapedColumns) && !in_array('*', $this->escapedColumns)) {
+                continue;
+            }
+            if (in_array($column, $this->rawColumns)) {
+                continue;
+            }
+
+            $row[$column] = e($row);
+        }
+
+        return $row;
     }
 
     public static function fromGet($class)
