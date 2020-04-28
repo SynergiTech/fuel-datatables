@@ -223,6 +223,7 @@ class DataTableTest extends BaseTestCase
 
         $dt = new \SynergiTech\DataTables\DataTable($request, TestModel::class);
         $dt->setAllowedColumns(['test']);
+        $dt->setEscapedColumns([]);
 
         $mock = $this->getMockBuilder('stdClass')
             ->setMethods(['myCallBack'])
@@ -251,6 +252,7 @@ class DataTableTest extends BaseTestCase
 
         $dt = new \SynergiTech\DataTables\DataTable($request, TestModel::class);
         $dt->setAllowedColumns(['one.name', 'one.two.name', 'one.property.does.not.exist']);
+        $dt->setEscapedColumns([]);
 
         $response = $dt->getResponse();
 

@@ -14,7 +14,7 @@ class DataTable
     protected $columns;
     protected $allowedColumns = [];
     protected $rowFormatters = [];
-    protected $escapedColumns = [];
+    protected $escapedColumns = ['*'];
     protected $rawColumns = [];
 
     public function __construct($params, $class, $query = null)
