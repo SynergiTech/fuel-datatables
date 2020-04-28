@@ -1,0 +1,17 @@
+{
+    "request": {
+        "columns": [
+            { "data": "searchable", "searchable": "true" },
+            { "data": "not-searchable", "searchable": "false" }
+        ],
+        "search": {
+            "value": "search test"
+        }
+    },
+    "data": [
+        {
+            "searchable": "test",
+            "not-searchable": "test"
+        }
+    ]
+}

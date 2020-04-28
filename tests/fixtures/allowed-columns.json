@@ -1,0 +1,16 @@
+{
+    "request": {
+        "columns": [
+            { "data": "not-allowed" },
+            { "data": "allowed" },
+            { "data": "add-col" }
+        ]
+    },
+    "data": [
+        {
+            "not-allowed": "b",
+            "allowed": "d",
+            "add-col": "ess"
+        }
+    ]
+}

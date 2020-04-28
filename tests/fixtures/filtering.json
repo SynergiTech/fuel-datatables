@@ -1,0 +1,16 @@
+{
+    "request": {
+        "columns": [
+            { "data": "text" },
+            { "data": "unsafe_html" },
+            { "data": "safe_html" }
+        ]
+    },
+    "data": [
+        {
+            "text": "plain",
+            "unsafe_html": "<script>alert(1)</script>",
+            "safe_html": "<h1>title</h1>"
+        }
+    ]
+}

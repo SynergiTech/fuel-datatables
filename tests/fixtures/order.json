@@ -1,0 +1,18 @@
+{
+    "request": {
+        "columns": [
+            { "data": "orderable", "orderable": "true" },
+            { "data": "not-orderable", "orderable": "false" }
+        ],
+        "order": [
+            { "column": 0, "dir": "asc" },
+            { "column": 1, "dir": "asc" }
+        ]
+    },
+    "data": [
+        {
+            "orderable": "test",
+            "not-orderable": "test"
+        }
+    ]
+}

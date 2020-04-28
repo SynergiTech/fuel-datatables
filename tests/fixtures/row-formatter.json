@@ -1,0 +1,15 @@
+{
+    "request": {
+        "columns": [
+            { "data": "test" }
+        ]
+    },
+    "data": [
+        {
+            "test": "a"
+        },
+        {
+            "test": "a"
+        }
+    ]
+}
